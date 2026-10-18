@@ -1,0 +1,9 @@
+{
+  "name": "kraptor-cs Revive Project",
+  "description": "Türkçe CloudStream eklentileri - Wakfu, anime, film, dizi için",
+  "iconUrl": "https://raw.githubusercontent.com/Torvak31/cs-kraptor-revive-Project/main/icon.png",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/Torvak31/cs-kraptor-revive-Project/main/plugins.json"
+  ]
+}
