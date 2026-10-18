@@ -6,11 +6,11 @@ plugins {
 android {
     namespace = "com.example"
     compileSdk = 35
-    
+
     defaultConfig {
         minSdk = 21
         
-        // CloudStream plugin metadata (static values)
+        // CloudStream plugin metadata
         manifestPlaceholders["description"] = "Turkish streaming sites hub with TMDB integration"
         manifestPlaceholders["authors"] = "Torvak31(Eknux)"
         manifestPlaceholders["status"] = "1"
@@ -30,7 +30,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
+    
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -41,13 +41,9 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 }
 
-// Custom tasks for CloudStream build pipeline
-tasks.register("make") {
-    dependsOn("assembleRelease")
-}
-
+// Custom task to generate plugins.json after assembleRelease
 tasks.register("makePluginsJson") {
-    dependsOn("make")
+    dependsOn("assembleRelease")
     doLast {
         val jsonContent = """
             [
@@ -68,8 +64,13 @@ tasks.register("makePluginsJson") {
             ]
         """.trimIndent()
         
-        File(project.buildDir, "plugins.json").writeText(jsonContent)
+        File(project.layout.buildDirectory.get().asFile, "plugins.json").writeText(jsonContent)
     }
+}
+
+// Override make task to depend on assembleRelease
+tasks.named("make") {
+    dependsOn("assembleRelease")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
